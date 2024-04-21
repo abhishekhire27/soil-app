@@ -6,7 +6,7 @@ body{
     color: #212529;
     text-align: left;
     background-color: #f5f8fa;
-    background-image: url('../../../../public/img/loginSingupBackground.jpg');
+    background-image: url('../../assets/loginSingupBackground.jpg');
     background-size: cover;
     background-position: center;
     margin: 0;

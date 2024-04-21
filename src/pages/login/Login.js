@@ -1,8 +1,8 @@
 import './Login.css';
 import useLoginForm from "./useLoginForm";
 import validate from './LoginFormValidationRules';
-import Card from '../../card/Card';
-import Button from '../../layouts/Button';
+import Card from '../../components/cards/Card';
+import Button from '../../components/layouts/Button';
 
 function Login() {
 
@@ -31,7 +31,7 @@ function Login() {
                         <div class="col-md-6">
                             <input autoComplete="off" type="email" id="email" name="email" class="form-control" className={`input ${errors.email && 'is-danger'}`} onChange={handleChange} value={values.email || ''} required autofocus />
                             {errors.email && (
-                                <p className='help is-danger'>{errors.email}</p>
+                                <p className='help is-danger' style={{color: 'red'}}>{errors.email}</p>
                             )
                             }
                         </div>
@@ -42,7 +42,7 @@ function Login() {
                         <div class="col-md-6">
                             <input type="password" id="password" name="password" class="form-control" className={`input ${errors.password && 'is-danger'}`} onChange={handleChange} value={values.password || ''} required />
                             {errors.password && (
-                                <p className='help is-danger'>{errors.password}</p>
+                                <p className='help is-danger' style={{color: 'red'}}>{errors.password}</p>
                             )
                             }
 
