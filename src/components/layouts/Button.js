@@ -1,6 +1,6 @@
 const Button = (props) => {
     return (
-        <button type={props.buttonType} class="btn btn-success m-2" onClick = {props.onClick ?? null}  >
+        <button type={props.buttonType} className="btn my-2" style={{backgroundColor: "rgb(54, 116, 26)", color: "white"}} onClick = {props.onClick ?? null}  >
             {props.buttonName}
         </button>
     );

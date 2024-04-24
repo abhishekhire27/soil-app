@@ -1,13 +1,24 @@
-import './Login.css';
 import useLoginForm from "./useLoginForm";
 import validate from './LoginFormValidationRules';
 import Card from '../../components/cards/Card';
 import Button from '../../components/layouts/Button';
+import Header from '../../components/header/Header'
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
 
+    const navigate = useNavigate();
+
     const handleLogin = () => {
-        console.log("No error, Login successful");
+        if(localStorage.getItem('users')){
+            for(let user in localStorage.getItem('users')){
+                const jsonUser = JSON.parse(user);
+                if(jsonUser.get('emailId') === values.email){
+                    navigate('/home', { state: { isLoggedIn: true } });
+                }
+            }
+        }
+        errors.password = 'Email Id and password does not match';
     }
 
     const {
@@ -17,45 +28,44 @@ function Login() {
         handleSubmit,
     } = useLoginForm(handleLogin, validate);
 
-
     const handleRegister = () => {
-        console.log("HELLP");
+        navigate('/register');
     }
 
     return (
-        <main class="login-form">
+        <>
+        <Header isLoggedIn={false} />
+        <main className="login-form" style={{padding: "4rem"}}>
             <Card title="Login">
-                <form onSubmit={handleSubmit} noValidate>
-                    <div class="form-group row">
-                        <label for="email" class="col-md-4 col-form-label text-md-right">E-Mail Address</label>
-                        <div class="col-md-6">
-                            <input autoComplete="off" type="email" id="email" name="email" class="form-control" className={`input ${errors.email && 'is-danger'}`} onChange={handleChange} value={values.email || ''} required autofocus />
-                            {errors.email && (
-                                <p className='help is-danger' style={{color: 'red'}}>{errors.email}</p>
-                            )
-                            }
-                        </div>
+                <form onSubmit={handleSubmit} style={{padding: "2rem"}} noValidate>
+                    
+                    <div className="form-group" style={{padding: "0.5rem"}}>
+                        <label for="email">E-Mail Address:</label>
+                        <input autoComplete="off" type="email" id="email" name="email" className={`input ${errors.email && 'is-danger'} form-control`} onChange={handleChange} value={values.email || ''} required autofocus />
+                        {errors.email && (
+                            <p className='help is-danger' style={{color: 'red'}}>{errors.email}</p>
+                        )
+                        }
                     </div>
 
-                    <div class="form-group row">
-                        <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
-                        <div class="col-md-6">
-                            <input type="password" id="password" name="password" class="form-control" className={`input ${errors.password && 'is-danger'}`} onChange={handleChange} value={values.password || ''} required />
-                            {errors.password && (
-                                <p className='help is-danger' style={{color: 'red'}}>{errors.password}</p>
-                            )
-                            }
+                    <div className="form-group" style={{padding: "0.5rem"}}>
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" className={`input ${errors.password && 'is-danger'} form-control`} onChange={handleChange} value={values.password || ''} required />
+                        {errors.password && (
+                            <p className='help is-danger' style={{color: 'red'}}>{errors.password}</p>
+                        )
+                        }
 
-                        </div>
                     </div>
 
-                    <div class="col-md-6 offset-md-4">
+                    <div class="d-flex flex-row" style={{padding: "1rem"}}>
                         <Button buttonName = "Login" buttonType = "submit"/>
-                        <Button buttonName = "Register" buttonType = "button" onClick={handleRegister} />
+                        <a className="form-text ms-5" style={{ cursor: 'pointer', paddingTop: "1rem" }} onClick={handleRegister}>Haven't registered yet? Register</a>
                     </div>
                 </form>
             </Card>
         </main>
+        </>
     );
 }
 

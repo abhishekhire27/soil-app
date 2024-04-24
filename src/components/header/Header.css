@@ -1,17 +1,19 @@
 .header {
-    background-color: rgb(102, 76, 36);  /* Dark gray background */
+    background-color: rgb(54, 116, 26);
     color: white;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.5rem 1rem;
+    /* padding: 4rem; */
+    height: 90px;
+    width: 100%;
   }
 
   .header .logo{
-    color: white;
-    text-decoration: none;
-    font-size: 1.5rem;
+    color: white(12, 81, 208);
+    font-size: 2rem;
     font-weight: bold;
+    margin: 100px;
   }
 
   .navbar-links {

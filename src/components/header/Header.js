@@ -10,22 +10,39 @@ const Header = (props) => {
     }
 
     return (
-        <nav className="header">
-            <div>
-                <p className="logo">SOIL</p>
-            </div>
+        <header className="header">
+
+            <a className="navbar-brand logo" style={{ cursor: 'pointer' }} onClick={() => handleNavigation('/')}>SOIL</a>
+
 
             {props.isLoggedIn ? (
-                <div className="navbar-links">
-                    <a onClick={() => handleNavigation('/Home')} href="#">Home</a>
-                    <a onClick={() => handleNavigation('/SpecialOffer')} href="#">Special Offer</a>
-                    <a onClick={() => handleNavigation('/Cart')} href="#">Cart</a>
-                    <a onClick={() => handleNavigation('/Profile')} href="#">Profile</a>
-                    <a onClick={() => handleNavigation('/Logout')} href="#">Logout</a>
-                </div>
-            ) : null}
+                    <ul className="navbar-nav d-flex flex-row">
+                        <li className="nav-item me-5">
+                            <a className="nav-link" onClick={() => handleNavigation('/login')} href="#">Special Offer</a>
+                        </li>
+                        <li className="nav-item me-5">
+                            <a className="nav-link" onClick={() => handleNavigation('/register')} href="#">Cart</a>
+                        </li>
+                        <li className="nav-item me-5">
+                            <a className="nav-link" onClick={() => handleNavigation('/register')} href="#">Profile</a>
+                        </li>
+                        <li className="nav-item me-5">
+                            <a className="nav-link" onClick={() => handleNavigation('/')} href="#">Logout</a>
+                        </li>
+                    </ ul>
+            ) : (
+                <ul className="navbar-nav d-flex flex-row">
+                    <li className="nav-item me-5">
+                        <a className="nav-link" onClick={() => handleNavigation('/login')} href="#">Login</a>
+                    </li>
+                    <li className="nav-item me-5">
+                        <a className="nav-link" onClick={() => handleNavigation('/register')} href="#">Register</a>
+                    </li>
+                </ul>
+            )}
 
-        </nav>
+
+        </header>
     );
 }
 

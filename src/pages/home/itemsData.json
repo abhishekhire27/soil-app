@@ -1,0 +1,37 @@
+[
+    {
+        "id": 1,
+        "name": "Apples",
+        "image": "./Apples.jpg",
+        "price": 10,
+        "description": "This is good item"
+    },
+    {
+        "id": 2,
+        "name": "Cucumber",
+        "image": "./Apples.jpg",
+        "price": 3,
+        "description": "This is good item"
+    },
+    {
+        "id": 3,
+        "name": "Grapes",
+        "image": "./Apples.jpg",
+        "price": 5,
+        "description": "This is good item"
+    },
+    {
+        "id": 4,
+        "name": "Onions",
+        "image": "./Apples.jpg",
+        "price": 12,
+        "description": "This is good item"
+    },
+    {
+        "id": 5,
+        "name": "Tomatoes",
+        "image": "./Apples.jpg",
+        "price": 10,
+        "description": "This is good item"
+    }
+]
