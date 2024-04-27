@@ -26,3 +26,14 @@
     text-decoration: none;
     color: aliceblue;
   }
+
+  .box {
+    width: 100%;
+    height: 200px;
+  }
+
+  .box img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }

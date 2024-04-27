@@ -4,11 +4,64 @@ import Card from '../../components/cards/Card';
 import Button from '../../components/layouts/Button';
 import Header from '../../components/header/Header'
 import { useNavigate } from 'react-router-dom';
+import bcrypt from 'bcryptjs';
+import { useToast } from '../../components/Toaster/ToastContext';
 
 function Register() {
 
-    const handleRegister = () => {
-        console.log("No error, Register successful");
+    const { addToast } = useToast();
+
+    function getLastUserId(){
+        if(localStorage.getItem('users')){
+            let highestId = 0;
+            let jsonUsers = JSON.parse(localStorage.getItem('users'));
+            for(let user in jsonUsers){
+                if(user['id'] > highestId){
+                    highestId = user.get('id');
+                }
+            }
+            return highestId;
+        }
+        return -1;
+    }
+
+    async function hashPassword(password){
+        try {
+            const salt = await bcrypt.genSalt(10);
+            const hash = await bcrypt.hash(password, salt);
+            return hash;
+        } catch (error) {
+            console.error('Error hashing password:', error);
+        }
+    }
+    
+
+    const handleRegister = async() => {
+        const hashedPassword = await hashPassword(values.password);
+        let lastUserId = getLastUserId() + 1;
+        const newUser = { 
+            "id": lastUserId, 
+            "name": values.name,
+            "emailId": values.email,
+            "password": hashedPassword,
+            "cartId": lastUserId
+        };
+
+        const newCart = {
+            "cartId": lastUserId,
+            "items": []
+        }
+
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        users.push(newUser);
+        localStorage.setItem('users', JSON.stringify(users));
+
+        const carts = JSON.parse(localStorage.getItem('carts') || '[]');
+        carts.push(newCart);
+        localStorage.setItem('carts', JSON.stringify(carts));
+
+        addToast('Registration successful');
+        navigate('/login', { state: { fromRegistrationPage: true } });
     }
 
     const navigate = useNavigate();
@@ -26,14 +79,14 @@ function Register() {
 
     return (
         <>
-            <Header isLoggedIn={false} />
+            <Header />
             <main className="Register-form" style={{ padding: "2rem" }}>
                 <Card title="Register">
                     <form onSubmit={handleSubmit} style={{ padding: "2rem" }} noValidate>
 
                         <div className="form-group" style={{ padding: "6px" }}>
-                            <label for="name">Full Name:</label>
-                            <input autoComplete="off" type="name" id="name" name="name" className={`input ${errors.name && 'is-danger'} form-control`} onChange={handleChange} value={values.name || ''} required autofocus />
+                            <label>Full Name:</label>
+                            <input autoComplete="off" type="name" id="name" name="name" className={`input ${errors.name && 'is-danger'} form-control`} onChange={handleChange} value={values.name || ''} required />
                             {errors.name && (
                                 <p className='help is-danger' style={{ color: 'red' }}>{errors.name}</p>
                             )
@@ -41,8 +94,8 @@ function Register() {
                         </div>
 
                         <div className="form-group" style={{ padding: "6px" }}>
-                            <label for="email">E-Mail Address:</label>
-                            <input autoComplete="off" type="email" id="email" name="email" className={`input ${errors.email && 'is-danger'} form-control`} onChange={handleChange} value={values.email || ''} required autofocus />
+                            <label>E-Mail Address:</label>
+                            <input autoComplete="off" type="email" id="email" name="email" className={`input ${errors.email && 'is-danger'} form-control`} onChange={handleChange} value={values.email || ''} required  />
                             {errors.email && (
                                 <p className='help is-danger' style={{ color: 'red' }}>{errors.email}</p>
                             )
@@ -50,7 +103,7 @@ function Register() {
                         </div>
 
                         <div className="form-group" style={{ padding: "6px" }}>
-                            <label for="password">Password:</label>
+                            <label>Password:</label>
                             <input type="password" id="password" name="password" className={`input ${errors.password && 'is-danger'} form-control`} onChange={handleChange} value={values.password || ''} required />
                             {errors.password && (
                                 <p className='help is-danger' style={{ color: 'red' }}>{errors.password}</p>
@@ -58,7 +111,16 @@ function Register() {
                             }
                         </div>
 
-                        <div class="d-flex flex-row" style={{ padding: "1rem" }}>
+                        <div className="form-group" style={{ padding: "6px" }}>
+                            <label>Confirm Password:</label>
+                            <input type="password" id="confirmPassword" name="confirmPassword" className={`input ${errors.confirmPassword && 'is-danger'} form-control`} onChange={handleChange} value={values.confirmPassword || ''} required />
+                            {errors.confirmPassword && (
+                                <p className='help is-danger' style={{ color: 'red' }}>{errors.confirmPassword}</p>
+                            )
+                            }
+                        </div>
+
+                        <div className="d-flex flex-row" style={{ padding: "1rem" }}>
                             <Button buttonName="Register" buttonType="submit" />
                             <a className="form-text ms-5" style={{ cursor: 'pointer', paddingTop: "1rem" }} onClick={handleLogin}>Have Account? Login</a>
                         </div>

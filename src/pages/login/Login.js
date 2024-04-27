@@ -4,21 +4,46 @@ import Card from '../../components/cards/Card';
 import Button from '../../components/layouts/Button';
 import Header from '../../components/header/Header'
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../components/auth/AuthProvider';
+import { useToast } from '../../components/Toaster/ToastContext';
+import bcrypt from 'bcryptjs';
 
 function Login() {
 
     const navigate = useNavigate();
+    const { setUser } = useAuth();
+    const { addToast } = useToast();
+
+    async function comparePasswords(enteredPassword, storedHashedPassword) {
+        try {
+            return await bcrypt.compare(enteredPassword, storedHashedPassword);
+        } catch (error) {
+            return false;
+        }
+    }
 
     const handleLogin = () => {
-        if(localStorage.getItem('users')){
-            for(let user in localStorage.getItem('users')){
-                const jsonUser = JSON.parse(user);
-                if(jsonUser.get('emailId') === values.email){
-                    navigate('/home', { state: { isLoggedIn: true } });
+        let user = null;
+        let jsonUsers = JSON.parse(localStorage.getItem('users'));
+        jsonUsers.forEach(localStorageUser => {
+            if (localStorageUser['emailId'] === values.email) {
+                let passwordMatch = comparePasswords(values.password, localStorageUser['password']);
+                if (passwordMatch) {
+                    user = localStorageUser;
+                    return;
                 }
             }
+        });
+
+        if (user !== null) {
+            setUser(user);
+            localStorage.setItem("user", JSON.stringify(user));
+            navigate('/');
         }
-        errors.password = 'Email Id and password does not match';
+        else {
+            addToast('Email Id and password does not match');
+        }
+
     }
 
     const {
@@ -34,37 +59,38 @@ function Login() {
 
     return (
         <>
-        <Header isLoggedIn={false} />
-        <main className="login-form" style={{padding: "4rem"}}>
-            <Card title="Login">
-                <form onSubmit={handleSubmit} style={{padding: "2rem"}} noValidate>
-                    
-                    <div className="form-group" style={{padding: "0.5rem"}}>
-                        <label for="email">E-Mail Address:</label>
-                        <input autoComplete="off" type="email" id="email" name="email" className={`input ${errors.email && 'is-danger'} form-control`} onChange={handleChange} value={values.email || ''} required autofocus />
-                        {errors.email && (
-                            <p className='help is-danger' style={{color: 'red'}}>{errors.email}</p>
-                        )
-                        }
-                    </div>
+            <Header />
 
-                    <div className="form-group" style={{padding: "0.5rem"}}>
-                        <label for="password">Password:</label>
-                        <input type="password" id="password" name="password" className={`input ${errors.password && 'is-danger'} form-control`} onChange={handleChange} value={values.password || ''} required />
-                        {errors.password && (
-                            <p className='help is-danger' style={{color: 'red'}}>{errors.password}</p>
-                        )
-                        }
+            <main className="slogin-form" style={{ padding: "4rem" }}>
+                <Card title="Login">
+                    <form onSubmit={handleSubmit} style={{ padding: "2rem" }} noValidate>
 
-                    </div>
+                        <div className="form-group" style={{ padding: "0.5rem" }}>
+                            <label>E-Mail Address:</label>
+                            <input autoComplete="off" type="email" id="email" name="email" className={`input ${errors.email && 'is-danger'} form-control`} onChange={handleChange} value={values.email || ''} required />
+                            {errors.email && (
+                                <p className='help is-danger' style={{ color: 'red' }}>{errors.email}</p>
+                            )
+                            }
+                        </div>
 
-                    <div class="d-flex flex-row" style={{padding: "1rem"}}>
-                        <Button buttonName = "Login" buttonType = "submit"/>
-                        <a className="form-text ms-5" style={{ cursor: 'pointer', paddingTop: "1rem" }} onClick={handleRegister}>Haven't registered yet? Register</a>
-                    </div>
-                </form>
-            </Card>
-        </main>
+                        <div className="form-group" style={{ padding: "0.5rem" }}>
+                            <label>Password:</label>
+                            <input type="password" id="password" name="password" className={`input ${errors.password && 'is-danger'} form-control`} onChange={handleChange} value={values.password || ''} required />
+                            {errors.password && (
+                                <p className='help is-danger' style={{ color: 'red' }}>{errors.password}</p>
+                            )
+                            }
+
+                        </div>
+
+                        <div className="d-flex flex-row" style={{ padding: "1rem" }}>
+                            <Button buttonName="Login" buttonType="submit" />
+                            <a className="form-text ms-5" style={{ cursor: 'pointer', paddingTop: "1rem" }} onClick={handleRegister}>Haven't registered yet? Register</a>
+                        </div>
+                    </form>
+                </Card>
+            </main>
         </>
     );
 }

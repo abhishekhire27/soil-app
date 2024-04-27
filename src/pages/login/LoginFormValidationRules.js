@@ -1,3 +1,13 @@
+import bcrypt from 'bcryptjs';
+
+async function comparePasswords(enteredPassword, storedHashedPassword) {
+  try {
+    return await bcrypt.compare(enteredPassword, storedHashedPassword);
+  } catch (error) {
+    return false;
+  }
+}
+
 export default function validate(values) {
   let errors = {};
   if (!values.email) {
@@ -9,5 +19,28 @@ export default function validate(values) {
     errors.password = 'Password is required';
   }
 
-  return errors;
+  if (localStorage.getItem('users')) {
+    let isMatched = false;
+    let jsonUsers = JSON.parse(localStorage.getItem('users'));
+    jsonUsers.forEach(user => {
+      if (user['emailId'] === values.email) {
+        isMatched = true;
+        let passwordMatch = comparePasswords(values.password, user['password']);
+        if (!passwordMatch) {
+          errors.email = 'Email Id and password does not match';
+          return;
+        }
+      }
+    });
+
+    if (!isMatched) {
+      errors.email = 'Email Id does not exist';
+    }
+  }
+  else{
+    errors.email = 'Email Id does not exist';
+  }
+ 
+
+return errors;
 };
