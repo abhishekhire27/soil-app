@@ -13,7 +13,6 @@ const Deals = () => {
         itemsData = JSON.parse(itemsData);
         const currentDayOfWeek = new Date().getDay();
         const todaySpecialProducts = itemsData.filter(item => {
-            console.log(item);
             if (item.specialDays && Array.isArray(item.specialDays)) {
                 return item.specialDays.includes(currentDayOfWeek);
             } else {

@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import Button from "../../components/layouts/Button";
 import './CardDetailsModal.css';
 import { useToast } from '../../components/Toaster/ToastContext';
-import { useAuth } from '../../components/auth/AuthProvider';
+import useCarts from "../../hooks/useCart";
+import { useNavigate } from 'react-router-dom';
 
 const CardDetailsModal = ({ isOpen, onClose, total }) => {
     const [cardNumber, setCardNumber] = useState('');
@@ -13,7 +14,8 @@ const CardDetailsModal = ({ isOpen, onClose, total }) => {
     const [cvvError, setCvvError] = useState('');
 
     const { addToast } = useToast();
-    const { user } = useAuth();
+    const navigate = useNavigate();
+    const { cartData } = useCarts();
 
     const validateCardDetails = () => {
         let isValid = true;
@@ -25,7 +27,6 @@ const CardDetailsModal = ({ isOpen, onClose, total }) => {
             setCardNumberError('');
         }
 
-        const expiryRegex = /^(0[1-9]|1[0-2])\/([0-9]{2})$/;
         if (!/^(0[1-9]|1[0-2])\/([0-9]{2})$/.test(expiry)) {
             setExpiryError('Please enter a valid expiry date in MM/YY format.........');
             isValid = false;
@@ -48,7 +49,6 @@ const CardDetailsModal = ({ isOpen, onClose, total }) => {
             }
         }
         
-
         if (!/^\d{3}$/.test(cvv)) {
             setCvvError('Please enter a valid 3-digit CVV');
             isValid = false;
@@ -59,21 +59,11 @@ const CardDetailsModal = ({ isOpen, onClose, total }) => {
         return isValid;
     };
 
-    function emptyCart(){
-        let carts = JSON.parse(localStorage.getItem('carts')) || [];
-        const userCartIndex = carts.findIndex(cart => user.cartId === cart.cartId);
-        
-        if (userCartIndex !== -1) {
-            carts[userCartIndex].items = [];
-        }
-        localStorage.setItem('carts', JSON.stringify(carts));
-    }
-
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validateCardDetails()) {
             addToast("Your order has been successfully placed")
-            emptyCart();
+            navigate("/order-summary", { state: { cartData, total } });
             onClose();
         }
     };

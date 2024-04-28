@@ -36,18 +36,15 @@ export default function validate(values) {
 };
 
 function isStrongPassword(password) {
-  // Define regex patterns for various criteria
   const uppercaseRegex = /[A-Z]/;
   const lowercaseRegex = /[a-z]/;
   const numberRegex = /[0-9]/;
   const specialCharRegex = /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/;
 
-  // Check if password meets all criteria
   const hasUppercase = uppercaseRegex.test(password);
   const hasLowercase = lowercaseRegex.test(password);
   const hasNumber = numberRegex.test(password);
   const hasSpecialChar = specialCharRegex.test(password);
 
-  // Return true if all criteria are met, false otherwise
   return hasUppercase && hasLowercase && hasNumber && hasSpecialChar;
 }

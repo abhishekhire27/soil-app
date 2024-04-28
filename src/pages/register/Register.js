@@ -5,6 +5,7 @@ import Button from '../../components/layouts/Button';
 import Header from '../../components/header/Header'
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '../../components/Toaster/ToastContext';
+import bcrypt from 'bcryptjs';
 
 function Register() {
 
@@ -25,15 +26,23 @@ function Register() {
     }
 
     async function hashPassword(password){
+        // try {
+        //     // const salt = await bcrypt.genSalt(10);
+        //     let hashPassword = null;
+        //     // const bcrypt = require('bcrypt');
+        //     const saltRounds = 10;
+        //     bcrypt.hash(password, saltRounds, function(err, hash) {
+        //         hashPassword = hash;
+        //     });
+        //     return hashPassword;
+        // } catch (error) {
+        //     console.error('Error hashing password:', error);
+        // }
+
         try {
-            // const salt = await bcrypt.genSalt(10);
-            let hashPassword = null;
-            const bcrypt = require('bcrypt');
-            const saltRounds = 10;
-            bcrypt.hash(password, saltRounds, function(err, hash) {
-                hashPassword = hash;
-            });
-            return hashPassword;
+            const salt = await bcrypt.genSalt(10);
+            const hash = await bcrypt.hash(password, salt);
+            return hash;
         } catch (error) {
             console.error('Error hashing password:', error);
         }
@@ -71,7 +80,6 @@ function Register() {
         localStorage.setItem('users', JSON.stringify(users));
 
         const carts = JSON.parse(localStorage.getItem('carts') || '[]');
-        console.log(carts)
         carts.push(newCart);
         localStorage.setItem('carts', JSON.stringify(carts));
 

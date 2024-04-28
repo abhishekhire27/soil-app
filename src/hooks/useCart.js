@@ -18,7 +18,6 @@ function useCarts () {
 
         if (userCart) {
             const updatedCartData = userCart.items.map(cartItem => {
-                console.log("cartItem", cartItem)
                 const itemDetails = items.find(item => item.id === cartItem.itemId);
 
                 if (itemDetails) {

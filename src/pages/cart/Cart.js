@@ -8,11 +8,16 @@ import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
     const navigate = useNavigate();
-
     const { cartData, removeFromCart } = useCarts();
     const [showModal, setShowModal] = useState(false);
 
-    const total = cartData.reduce((acc, item) => acc + item.price * item.quantity, 0);
+    const today = new Date().getDay();
+
+    const total = cartData.reduce((acc, item) => {
+        const isSpecialDay = item.specialDays.includes(today);
+        const price = isSpecialDay ? item.specialPrice : item.price;
+        return acc + price * item.quantity;
+    }, 0);
 
     function checkout() {
         setShowModal(true);
@@ -20,7 +25,7 @@ const Cart = () => {
 
     const handleNavigation = (path) => {
         navigate(path);
-    }
+    };
 
     return (
         <>
@@ -42,20 +47,25 @@ const Cart = () => {
                 </div>
             </div>
             <div className='cart-container mt-4 ms-4'>
-                {cartData.map(item => (
-                    <div key={item.id} className="cart-item">
-                        <div className="item-image">
-                            <img src={`/assets/items/${item.image}`} alt={item.name} />
+                {cartData.map(item => {
+                    const isSpecialDay = item.specialDays.includes(today);
+                    const price = isSpecialDay ? item.specialPrice : item.price;
+                    return (
+                        <div key={item.id} className="cart-item">
+                            <div className="item-image">
+                                <img src={`/assets/items/${item.image}`} alt={item.name} />
+                            </div>
+                            <div className="item-details">
+                                <h5>{item.name}</h5>
+                                <p>{item.description}</p>
+                                <p>Price: ${price}</p>
+                                {isSpecialDay && <p className="text-success">Special price today!</p>}
+                                <p>Quantity: {item.quantity}</p>
+                                <Button buttonName="Remove" onClick={() => removeFromCart(item.id)} className="btn btn-danger" />
+                            </div>
                         </div>
-                        <div className="item-details">
-                            <h5>{item.name}</h5>
-                            <p>{item.description}</p>
-                            <p>Price: ${item.price}</p>
-                            <p>Quantity: {item.quantity}</p>
-                            <Button buttonName="Remove" onClick={() => removeFromCart(item.id)} className="btn btn-danger" />
-                        </div>
-                    </div>
-                ))}
+                    );
+                })}
             </div>
             {cartData.length > 0 && (
                 <div className="total-container ms-4">

@@ -10,6 +10,7 @@ import ProtectedRoute from './components/auth/ProtectedRoute';
 import Cart from './pages/cart/Cart';
 import Deals from './pages/deals/Deals';
 import Profile from './pages/profile/Profile';
+import OrderSummary from './pages/orderSummary/OrderSummary';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/" element={<Home />} />
             <Route path="/deals" element={<Deals />} />
+
             <Route
               path="/cart"
               element={
@@ -29,7 +31,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
-
+            
             <Route
               path="/profile"
               element={
@@ -39,6 +41,14 @@ function App() {
               }
             />
 
+<Route
+              path="/summary"
+              element={
+                <ProtectedRoute>
+                  <OrderSummary />
+                </ProtectedRoute>
+              }
+            />
 
           </Routes>
           <Footer />
