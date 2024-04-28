@@ -110,7 +110,11 @@ function Profile() {
       addToast("New passwords do not match.", { type: "error" });
       return;
     }
-    const users = JSON.parse(localStorage.getItem("users")) || [];
+    let users = [];
+    const localUsers = JSON.parse(localStorage.getItem("users"));
+    if (localUsers) {
+      users = localUsers;
+    }
     const userIndex = users.findIndex((dbUser) => dbUser.id === user.id);
 
     if (userIndex !== -1) {
@@ -118,7 +122,10 @@ function Profile() {
         passwordFields.newPassword
       );
       localStorage.setItem("users", JSON.stringify(users));
-
+      setPasswordFields({
+        newPassword: "",
+        confirmPassword: "",
+      });
       addToast("Password changed successfully!", { type: "success" });
       closeModal();
     } else {
@@ -253,6 +260,7 @@ function Profile() {
                     onChange={handleChange}
                     className="form-control"
                   >
+                    <option value="">No Preference</option>
                     <option value="Vegetarian">Vegetarian</option>
                     <option value="Pescatarian">Pescatarian</option>
                     <option value="Ovo Vegetarian">Ovo Vegetarian</option>
@@ -268,6 +276,7 @@ function Profile() {
                     onChange={handleChange}
                     className="form-control"
                   >
+                    <option value="">No Selection</option>
                     <option value="Weight Loss">Weight Loss</option>
                     <option value="Weight Gain">Weight Gain</option>
                     <option value="Muscle Gain">Muscle Gain</option>
@@ -282,6 +291,7 @@ function Profile() {
                     onChange={handleChange}
                     className="form-control"
                   >
+                    <option value="">No Selection</option>
                     <option value="Sedentary">Sedentary</option>
                     <option value="Lightly Active">Lightly Active</option>
                     <option value="Active">Active</option>

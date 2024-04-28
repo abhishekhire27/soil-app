@@ -1,16 +1,17 @@
-import './App.css';
-import Login from './pages/login/Login';
-import Register from './pages/register/Register';
-import Home from './pages/home/Home';
-import Footer from './components/footer/Footer';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import AuthProvider from './components/auth/AuthProvider';
-import ToastProvider from './components/Toaster/ToastContext';
-import ProtectedRoute from './components/auth/ProtectedRoute';
-import Cart from './pages/cart/Cart';
-import Deals from './pages/deals/Deals';
-import Profile from './pages/profile/Profile';
-import OrderSummary from './pages/orderSummary/OrderSummary';
+import "./App.css";
+import Login from "./pages/login/Login";
+import Register from "./pages/register/Register";
+import Home from "./pages/home/Home";
+import Footer from "./components/footer/Footer";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import AuthProvider from "./components/auth/AuthProvider";
+import ToastProvider from "./components/Toaster/ToastContext";
+import ProtectedRoute from "./components/auth/ProtectedRoute";
+import Cart from "./pages/cart/Cart";
+import Deals from "./pages/deals/Deals";
+import Profile from "./pages/profile/Profile";
+import OrderSummary from "./pages/orderSummary/OrderSummary";
+import DietPlan from "./pages/dietplan/DietPlan";
 
 function App() {
   return (
@@ -31,7 +32,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            
+
             <Route
               path="/profile"
               element={
@@ -41,7 +42,7 @@ function App() {
               }
             />
 
-<Route
+            <Route
               path="/summary"
               element={
                 <ProtectedRoute>
@@ -49,13 +50,19 @@ function App() {
                 </ProtectedRoute>
               }
             />
-
+            <Route
+              path="/diet-plan"
+              element={
+                <ProtectedRoute>
+                  <DietPlan />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
           <Footer />
         </Router>
       </ToastProvider>
     </AuthProvider>
-
   );
 }
 
