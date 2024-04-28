@@ -1,47 +1,137 @@
 [
     {
         "id": 1,
-        "name": "Apples",
-        "image": "./Apples.jpg",
+        "name": "Organic Raw Honey (1L)",
+        "image": "./Honey.jpg",
         "price": 10,
-        "description": "This is good item",
+        "description": "Unfiltered and unpasteurized, preserving all the natural vitamins and enzymes for a sweet, healthy treat.",
         "specialDays": [0,4],
         "specialPrice": 8
     },
     {
         "id": 2,
-        "name": "Cucumber",
-        "image": "./Cucumber.jpg",
+        "name": "Organic Turmeric Powder (250gm)",
+        "image": "./Turmeric.jpg",
         "price": 3,
-        "description": "This is good item",
+        "description": "Known for its anti-inflammatory properties, this spice adds vibrant color and flavor to any dish.",
         "specialDays": [1,3,5],
         "specialPrice": 2
     },
     {
         "id": 3,
-        "name": "Grapes",
-        "image": "./Grapes.jpg",
-        "price": 5,
-        "description": "This is good item",
+        "name": "Organic Quinoa (1Kg)",
+        "image": "./Quinoa.jpg",
+        "price": 12,
+        "description": "A nutrient-packed superfood that serves as a complete protein source, ideal for salads, soups, and side dishes.",
         "specialDays": [0,4,6],
-        "specialPrice": 4
+        "specialPrice": 8
     },
     {
         "id": 4,
-        "name": "Onions",
-        "image": "./Onions.jpg",
+        "name": "Organic Apple Cider Vinegar (1.5L)",
+        "image": "./AppleCiderVinegar.jpg",
         "price": 12,
-        "description": "This is good item",
+        "description": "With the 'mother' of vinegar; perfect for dressings, marinades, or as a health tonic.",
         "specialDays": [1,3],
         "specialPrice": 9
     },
     {
         "id": 5,
-        "name": "Tomatoes",
-        "image": "./Tomatoes.jpg",
+        "name": "Organic Matcha Powder (650gm)",
+        "image": "./MatchaPowder.jpg",
         "price": 10,
-        "description": "This is good item",
+        "description": "A fine, richly flavored green tea powder, excellent for drinks and baking, loaded with antioxidants.",
         "specialDays": [2,5,6],
         "specialPrice": 8
+    },
+    {
+        "id": 6,
+        "name": "Organic Coconut Oil (1.2L)",
+        "image": "./CoconutOil.jpg",
+        "price": 16,
+        "description": "A versatile staple in the kitchen and bathroom, ideal for cooking, skincare, and haircare.",
+        "specialDays": [0,4],
+        "specialPrice": 9
+    },
+    {
+        "id": 7,
+        "name": "Organic Extra Virgin Olive Oil (1L)",
+        "image": "./VirginOliveOil.jpg",
+        "price": 25,
+        "description": " Cold-pressed from organic olives, our extra virgin olive oil is full of flavor and antioxidants. Use it for cooking, salad dressings, or drizzling over roasted vegetables for a touch of Mediterranean goodness.",
+        "specialDays": [1,3,5],
+        "specialPrice": 20
+    },
+    {
+        "id": 8,
+        "name": "Organic Flaxseed Oil (1L)",
+        "image": "./FlaxseedOil.jpg",
+        "price": 12,
+        "description": "High in essential fatty acids, it's excellent for salads and essential for vegan diets.",
+        "specialDays": [0,4,6],
+        "specialPrice": 8
+    },
+    {
+        "id": 9,
+        "name": "Organic Acai Berry Powder (500g)",
+        "image": "./AcaiBerryPowder.jpg",
+        "price": 17,
+        "description": "Superfood powder ideal for adding a nutritional punch to smoothies and yogurts.",
+        "specialDays": [1,3],
+        "specialPrice": 12
+    },
+    {
+        "id": 10,
+        "name": "Organic Dried Fruit Mix (1Kg)",
+        "image": "./DriedFruitMix.jpg",
+        "price": 10,
+        "description": "Our organic dried fruit mix is a delightful blend of sweet and tangy flavors. Packed with vitamins and minerals, it makes a convenient and nutritious snack for on-the-go munching.",
+        "specialDays": [2,5,6],
+        "specialPrice": 8
+    },
+    {
+        "id": 11,
+        "name": "Organic Chia Seeds (200gm)",
+        "image": "./ChiaSeeds.jpg",
+        "price": 4,
+        "description": "Packed with omega-3 fatty acids, fiber, and antioxidants, our organic chia seeds are a nutritional powerhouse. Sprinkle them on yogurt, oatmeal, or salads for an added crunch and boost of nutrients.",
+        "specialDays": [0,4],
+        "specialPrice": 2
+    },
+    {
+        "id": 12,
+        "name": "Organic Cacao Powder (500gm)",
+        "image": "./CacaoPowder.jpg",
+        "price": 3,
+        "description": "Made from organic cacao beans, our cacao powder is rich in antioxidants and minerals. Add it to smoothies, baked goods, or hot chocolate for a decadent and guilt-free treat.",
+        "specialDays": [1,3,5],
+        "specialPrice": 2
+    },
+    {
+        "id": 13,
+        "name": "Organic Coconut Sugar (1kg)",
+        "image": "./CoconutSugar.jpg",
+        "price": 12,
+        "description": "Our organic coconut sugar is a natural sweetener made from the sap of coconut palm trees. With its caramel-like flavor and low glycemic index, it's a healthier alternative to refined sugars. Use it in baking, cooking, or as a sweetener for beverages.",
+        "specialDays": [0,4,6],
+        "specialPrice": 8
+    },
+    {
+        "id": 14,
+        "name": "Organic Cashew Nuts (1Kg)",
+        "image": "./CashewNuts.jpg",
+        "price": 12,
+        "description": "Sourced from organic cashew trees, our cashew nuts are creamy, crunchy, and packed with nutrients. Enjoy them as a snack, sprinkle them over salads, or use them in baking for added texture and flavor.",
+        "specialDays": [1,3],
+        "specialPrice": 9
+    },
+    {
+        "id": 15,
+        "name": "Organic Hydrating Face Cream (500gm)",
+        "image": "./FaceCream.jpg",
+        "price": 30,
+        "description": "Our organic hydrating face cream is a luxurious skincare essential crafted with the finest natural ingredients. Formulated with organic botanical extracts, vitamins, and antioxidants, it deeply moisturizes and nourishes the skin, leaving it soft, supple, and rejuvenated. Experience the benefits of organic skincare with our hydrating face cream, and unveil a radiant, youthful complexion naturally.",
+        "specialDays": [2,5,6],
+        "specialPrice": 24
     }
 ]

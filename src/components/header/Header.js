@@ -29,7 +29,7 @@ const Header = () => {
 
                     <ul className="navbar-links">
                         <li className="nav-item ms-4 me-4">
-                            <a className="nav-link" onClick={() => handleNavigation('/deals')} href="#"><FaShoppingCart /> Specials and Small-scale farming</a>
+                            <a className="nav-link" onClick={() => handleNavigation('/deals')} href="#"><FaShoppingCart /> Specials and small-scale farming</a>
                         </li>
                         <li className="nav-item ms-4 me-4">
                             <a className="nav-link" onClick={() => handleNavigation('/cart')} href="#"><FaShoppingCart /> Cart</a>

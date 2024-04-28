@@ -3,6 +3,7 @@ import Button from "../layouts/Button";
 import "./CardDetailsModal.css";
 import { useToast } from "../../components/Toaster/ToastContext";
 import useCarts from "../../hooks/useCart";
+import { useAuth } from '../../components/auth/AuthProvider';
 import { useNavigate } from "react-router-dom";
 
 const CardDetailsModal = ({ isOpen, onClose, total }) => {
@@ -16,6 +17,17 @@ const CardDetailsModal = ({ isOpen, onClose, total }) => {
   const { addToast } = useToast();
   const navigate = useNavigate();
   const { cartData } = useCarts();
+  const { user } = useAuth();
+
+  function emptyCart(){
+    let carts = JSON.parse(localStorage.getItem('carts')) || [];
+    const userCartIndex = carts.findIndex(cart => user.cartId === cart.cartId);
+    
+    if (userCartIndex !== -1) {
+        carts[userCartIndex].items = [];
+    }
+    localStorage.setItem('carts', JSON.stringify(carts));
+  }
 
   const validateCardDetails = () => {
     let isValid = true;
@@ -67,8 +79,9 @@ const CardDetailsModal = ({ isOpen, onClose, total }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateCardDetails()) {
+      emptyCart();
       addToast("Your order has been successfully placed");
-      navigate("/order-summary", { state: { cartData, total } });
+      navigate("/summary", { state: { cartData, total } });
       onClose();
     }
   };

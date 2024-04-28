@@ -7,7 +7,7 @@ import "./Profile.css";
 import Header from "../../components/header/Header";
 import ChangePasswordModal from "../../components/modals/ChangePasswordModal";
 import { useAuth } from "../../components/auth/AuthProvider";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcryptjs-react";
 
 function Profile() {
   const navigate = useNavigate();

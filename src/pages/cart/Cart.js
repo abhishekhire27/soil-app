@@ -69,7 +69,7 @@ const Cart = () => {
             </div>
             {cartData.length > 0 && (
                 <div className="total-container ms-4">
-                    <h2>Total: ${total}</h2>
+                    <h2 style={{ color: "rgb(98, 98, 137)" }}>Total: ${total}</h2>
                 </div>
             )}
             {
@@ -80,7 +80,7 @@ const Cart = () => {
                     </div>
                 ) : (
                     <div>
-                        <h2 className='cart-header'>Nothing added to cart</h2>
+                        <h2 className='center-container'>Nothing added to cart</h2>
                         <Button buttonName="Continue Shopping" onClick={() => handleNavigation("/")} className="btn btn-primary checkout-button" />
                     </div>
                 )

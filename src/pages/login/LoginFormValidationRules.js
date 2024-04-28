@@ -1,4 +1,4 @@
-import bcrypt from 'bcryptjs';
+import bcrypt from 'bcryptjs-react';
 
 async function comparePasswords(enteredPassword, storedHashedPassword) {
   try {

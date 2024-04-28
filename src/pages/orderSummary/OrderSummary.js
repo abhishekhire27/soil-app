@@ -2,27 +2,13 @@ import React from 'react';
 import Header from "../../components/header/Header";
 import Button from "../../components/layouts/Button";
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useAuth } from '../../components/auth/AuthProvider';
 
 const OrderSummary = () => {
     const navigate = useNavigate();
     const { state } = useLocation();
     const { cartData, total } = state;
 
-    const { user } = useAuth();
-
-    function emptyCart(){
-        let carts = JSON.parse(localStorage.getItem('carts')) || [];
-        const userCartIndex = carts.findIndex(cart => user.cartId === cart.cartId);
-        
-        if (userCartIndex !== -1) {
-            carts[userCartIndex].items = [];
-        }
-        localStorage.setItem('carts', JSON.stringify(carts));
-    }
-
     const handleNavigation = () => {
-        emptyCart()
         navigate("/");
     };
 
@@ -30,7 +16,7 @@ const OrderSummary = () => {
         <>
             <Header />
             <div className="order-summary-container ms-4">
-                <h1>Order Summary</h1>
+                <h2 style={{ color: "rgb(98, 98, 137)" }} className="ms-4 mt-4">Order Summary</h2>
                 <table className="table">
                     <thead>
                         <tr>

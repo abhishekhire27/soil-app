@@ -10,7 +10,7 @@
 .cart-item {
     display: flex;
     align-items: center;
-    border: 1px solid #ddd;
+    border: 1px solid #897171;
     border-radius: 5px;
     padding: 10px;
     width: 80%;
@@ -43,6 +43,15 @@
     margin-left: 4rem;
 }
 
-.cart-header {
+.center-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30vh;
+    text-align: center;
     color: rgb(98, 98, 137);
+}
+
+.center-container > div {
+    width: 100%;
 }

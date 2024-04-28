@@ -6,7 +6,7 @@ import Header from "../../components/header/Header";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../components/auth/AuthProvider";
 import { useToast } from "../../components/Toaster/ToastContext";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcryptjs-react";
 
 function Login() {
   const navigate = useNavigate();

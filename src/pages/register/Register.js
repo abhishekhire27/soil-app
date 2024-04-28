@@ -5,7 +5,7 @@ import Button from "../../components/layouts/Button";
 import Header from "../../components/header/Header";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "../../components/Toaster/ToastContext";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcryptjs-react";
 
 function Register() {
   const { addToast } = useToast();
