@@ -25,19 +25,6 @@ function Register() {
   }
 
   async function hashPassword(password) {
-    // try {
-    //     // const salt = await bcrypt.genSalt(10);
-    //     let hashPassword = null;
-    //     // const bcrypt = require('bcrypt');
-    //     const saltRounds = 10;
-    //     bcrypt.hash(password, saltRounds, function(err, hash) {
-    //         hashPassword = hash;
-    //     });
-    //     return hashPassword;
-    // } catch (error) {
-    //     console.error('Error hashing password:', error);
-    // }
-
     try {
       const salt = await bcrypt.genSalt(10);
       const hash = await bcrypt.hash(password, salt);
