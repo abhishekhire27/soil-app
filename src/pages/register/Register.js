@@ -1,10 +1,9 @@
-import useRegisterForm from "./useRegisterForm";
+import useRegisterForm from "../../hooks/useRegisterForm";
 import validate from './RegisterFormValidationRules';
 import Card from '../../components/cards/Card';
 import Button from '../../components/layouts/Button';
 import Header from '../../components/header/Header'
 import { useNavigate } from 'react-router-dom';
-import bcrypt from 'bcryptjs';
 import { useToast } from '../../components/Toaster/ToastContext';
 
 function Register() {
@@ -27,14 +26,28 @@ function Register() {
 
     async function hashPassword(password){
         try {
-            const salt = await bcrypt.genSalt(10);
-            const hash = await bcrypt.hash(password, salt);
-            return hash;
+            // const salt = await bcrypt.genSalt(10);
+            let hashPassword = null;
+            const bcrypt = require('bcrypt');
+            const saltRounds = 10;
+            bcrypt.hash(password, saltRounds, function(err, hash) {
+                hashPassword = hash;
+            });
+            return hashPassword;
         } catch (error) {
             console.error('Error hashing password:', error);
         }
     }
-    
+
+    function getCurrentDate() {
+        const today = new Date();
+        const day = String(today.getDate()).padStart(2, '0');
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const year = today.getFullYear();
+
+        const currentDate = `${day}/${month}/${year}`;
+        return currentDate;
+    }
 
     const handleRegister = async() => {
         const hashedPassword = await hashPassword(values.password);
@@ -44,7 +57,8 @@ function Register() {
             "name": values.name,
             "emailId": values.email,
             "password": hashedPassword,
-            "cartId": lastUserId
+            "cartId": lastUserId,
+            "joiningDate": getCurrentDate()
         };
 
         const newCart = {
@@ -57,11 +71,12 @@ function Register() {
         localStorage.setItem('users', JSON.stringify(users));
 
         const carts = JSON.parse(localStorage.getItem('carts') || '[]');
+        console.log(carts)
         carts.push(newCart);
         localStorage.setItem('carts', JSON.stringify(carts));
 
         addToast('Registration successful');
-        navigate('/login', { state: { fromRegistrationPage: true } });
+        navigate('/login');
     }
 
     const navigate = useNavigate();

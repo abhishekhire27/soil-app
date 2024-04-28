@@ -1,75 +1,46 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './Cart.css';
 import Header from "../../components/header/Header";
 import Button from "../../components/layouts/Button";
-import { useAuth } from '../../components/auth/AuthProvider';
-import { useToast } from '../../components/Toaster/ToastContext';
-import CardDetailsModal from '../../components/Modals/CardDetailsModal';
+import CardDetailsModal from '../../components/modals/CardDetailsModal';
+import useCarts from "../../hooks/useCart";
+import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
-    const { user } = useAuth();
-    const { addToast } = useToast();
-    const [cartData, setCartData] = useState([]);
+    const navigate = useNavigate();
+
+    const { cartData, removeFromCart } = useCarts();
     const [showModal, setShowModal] = useState(false);
 
     const total = cartData.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
-    useEffect(() => {
-        const carts = JSON.parse(localStorage.getItem('carts'));
-        const userCart = carts.find(cart => user.cartId === cart.cartId);
-        const items = JSON.parse(localStorage.getItem('items'));
-
-        if (userCart) {
-            const updatedCartData = userCart.items.map(cartItem => {
-                console.log("cartItem", cartItem)
-                const itemDetails = items.find(item => item.id === cartItem.itemId);
-
-                if (itemDetails) {
-                    return { ...itemDetails, quantity: cartItem.quantity };
-                }
-                return null;
-            }).filter(item => item !== null);
-            setCartData(updatedCartData);
-        } else {
-            setCartData([]);
-        }
-    }, [user]);
-
-    const removeFromCart = (itemId) => {
-        console.log("cartData", cartData)
-        const updatedCartData = cartData.filter(item => item.id !== itemId);
-
-        let carts = JSON.parse(localStorage.getItem('carts'));
-        const userCart = carts.find(cart => user.cartId === cart.cartId);
-        const userCartItems = userCart.items.filter(item => item.itemId !== itemId);
-        userCart.items = userCartItems;
-        carts = carts.map(cart => {
-            if(cart.cartId === user.cartId){
-                return userCart;
-            }
-            return cart;
-        })
-
-        setCartData(updatedCartData);
-
-        // const updatedCarts = JSON.parse(localStorage.getItem('carts')).map(cart => {
-        //     if (cart.cartId === user.cartId) {
-        //         return { ...cart, items: updatedCartData };
-        //     }
-        //     return cart;
-        // });
-
-        localStorage.setItem('carts', JSON.stringify(carts));
-    };
-
     function checkout() {
-        console.log("Opening modal...");
         setShowModal(true);
+    }
+
+    const handleNavigation = (path) => {
+        navigate(path);
     }
 
     return (
         <>
             <Header />
+            <div className="row mt-4 mb-4">
+                <div className="col-md-12" style={{ position: 'relative', height: '500px' }}>
+                    <img
+                        src="/assets/cartImage.jpg"
+                        className="card-img-top img-fluid"
+                        style={{
+                            position: 'absolute',
+                            top: '0',
+                            left: '0',
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                        }}
+                    />
+                </div>
+            </div>
             <div className='cart-container mt-4 ms-4'>
                 {cartData.map(item => (
                     <div key={item.id} className="cart-item">
@@ -86,15 +57,21 @@ const Cart = () => {
                     </div>
                 ))}
             </div>
+            {cartData.length > 0 && (
+                <div className="total-container ms-4">
+                    <h2>Total: ${total}</h2>
+                </div>
+            )}
             {
                 cartData.length > 0 ? (
-                    <div className="checkout-button-container" style={{marginBottom: "4rem"}}>
+                    <div className="checkout-button-container">
                         <Button buttonName="Checkout" onClick={() => checkout()} className="btn btn-primary checkout-button" />
+                        <Button buttonName="Continue Shopping" onClick={() => handleNavigation("/")} className="btn checkout-button" />
                     </div>
                 ) : (
                     <div>
-                        {/* {addToast('Nothing added to cart')} */}
                         <h2 className='cart-header'>Nothing added to cart</h2>
+                        <Button buttonName="Continue Shopping" onClick={() => handleNavigation("/")} className="btn btn-primary checkout-button" />
                     </div>
                 )
             }

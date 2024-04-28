@@ -9,7 +9,6 @@ import ToastProvider from './components/Toaster/ToastContext';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import Cart from './pages/cart/Cart';
 import Deals from './pages/deals/Deals';
-import Farming from './pages/farming/Farming';
 import Profile from './pages/profile/Profile';
 
 function App() {
@@ -22,7 +21,6 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/" element={<Home />} />
             <Route path="/deals" element={<Deals />} />
-            <Route path="/farming" element={<Farming />} />
             <Route
               path="/cart"
               element={

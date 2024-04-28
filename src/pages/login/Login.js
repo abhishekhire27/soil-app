@@ -1,4 +1,4 @@
-import useLoginForm from "./useLoginForm";
+import useLoginForm from '../../hooks/useLoginForm';
 import validate from './LoginFormValidationRules';
 import Card from '../../components/cards/Card';
 import Button from '../../components/layouts/Button';
@@ -16,7 +16,13 @@ function Login() {
 
     async function comparePasswords(enteredPassword, storedHashedPassword) {
         try {
-            return await bcrypt.compare(enteredPassword, storedHashedPassword);
+            // const match = await bcrypt.compare(enteredPassword, storedHashedPassword);
+            // return match;
+            let match = false;
+            bcrypt.compare(enteredPassword, storedHashedPassword, function(err, result) {
+                match = result;
+            });
+            return match;
         } catch (error) {
             return false;
         }

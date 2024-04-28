@@ -1,26 +1,79 @@
 import React, { useState } from 'react';
+import Button from "../../components/layouts/Button";
 import './CardDetailsModal.css';
+import { useToast } from '../../components/Toaster/ToastContext';
+import { useAuth } from '../../components/auth/AuthProvider';
 
 const CardDetailsModal = ({ isOpen, onClose, total }) => {
     const [cardNumber, setCardNumber] = useState('');
     const [expiry, setExpiry] = useState('');
     const [cvv, setCvv] = useState('');
+    const [cardNumberError, setCardNumberError] = useState('');
+    const [expiryError, setExpiryError] = useState('');
+    const [cvvError, setCvvError] = useState('');
+
+    const { addToast } = useToast();
+    const { user } = useAuth();
 
     const validateCardDetails = () => {
-        // Add validation logic here (simple example)
-        const cardNumberValid = /^\d{16}$/.test(cardNumber); // Simple validation for a 16 digit card number
-        const expiryValid = /^(0[1-9]|1[0-2])\/?([0-9]{2})$/.test(expiry); // MM/YY format
-        const cvvValid = /^\d{3}$/.test(cvv); // 3 digit CVV
+        let isValid = true;
 
-        if (!cardNumberValid || !expiryValid || !cvvValid) {
-            alert("Please enter valid card details");
-            return false;
+        if (!/^\d{16}$/.test(cardNumber)) {
+            setCardNumberError('Please enter a valid 16-digit card number');
+            isValid = false;
+        } else {
+            setCardNumberError('');
         }
-        return true;
+
+        const expiryRegex = /^(0[1-9]|1[0-2])\/([0-9]{2})$/;
+        if (!/^(0[1-9]|1[0-2])\/([0-9]{2})$/.test(expiry)) {
+            setExpiryError('Please enter a valid expiry date in MM/YY format.........');
+            isValid = false;
+        } else {
+            const [month, year] = expiry.split('/').map(Number);
+            const currentYear = new Date().getFullYear() % 100;
+            const daysInMonth = new Date(2000 + year, month, 0).getDate();
+        
+            if (month < 1 || month > 12) {
+                setExpiryError('Invalid month');
+                isValid = false;
+            } else if (year < currentYear || (year === currentYear && month < new Date().getMonth() + 1)) {
+                setExpiryError('Expiry date cannot be in the past');
+                isValid = false;
+            } else if (daysInMonth < 31 && expiry.endsWith('/31')) {
+                setExpiryError('Invalid expiry date for the selected month');
+                isValid = false;
+            } else {
+                setExpiryError('');
+            }
+        }
+        
+
+        if (!/^\d{3}$/.test(cvv)) {
+            setCvvError('Please enter a valid 3-digit CVV');
+            isValid = false;
+        } else {
+            setCvvError('');
+        }
+
+        return isValid;
     };
 
-    const handleCheckout = () => {
+    function emptyCart(){
+        let carts = JSON.parse(localStorage.getItem('carts')) || [];
+        const userCartIndex = carts.findIndex(cart => user.cartId === cart.cartId);
+        
+        if (userCartIndex !== -1) {
+            carts[userCartIndex].items = [];
+        }
+        localStorage.setItem('carts', JSON.stringify(carts));
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
         if (validateCardDetails()) {
+            addToast("Your order has been successfully placed")
+            emptyCart();
             onClose();
         }
     };
@@ -30,40 +83,28 @@ const CardDetailsModal = ({ isOpen, onClose, total }) => {
     return (
         <div className='custom-modal'>
             <h2>Enter your card details</h2>
-            <div>
-                <input type="number" placeholder="Card Number" value={cardNumber} onChange={e => setCardNumber(e.target.value)} />
-                <input type="text" placeholder="MM/YY" value={expiry} onChange={e => setExpiry(e.target.value)}/>
-                <input type="number" placeholder="CVV" value={cvv} onChange={e => setCvv(e.target.value)} />
-            </div>
-            <button onClick={onClose}>
-                Close
-            </button>
+            <form onSubmit={handleSubmit}>
+                <div className="form-group mt-2">
+                    <label>Card Number:</label>
+                    <input type="number" placeholder="Card Number" value={cardNumber} onChange={e => setCardNumber(e.target.value)} />
+                    {cardNumberError && <p className="error-message" style={{color: "red"}}>{cardNumberError}</p>}
+                </div>
+                <div className="form-group mt-2">
+                    <label>Expiry date:</label>
+                    <input type="text" placeholder="MM/YY" value={expiry} onChange={e => setExpiry(e.target.value)} />
+                    {expiryError && <p className="error-message" style={{color: "red"}}>{expiryError}</p>}
+                </div>
+                <div className="form-group mt-2">
+                    <label>CVV:</label>
+                    <input type="number" placeholder="CVV" value={cvv} onChange={e => setCvv(e.target.value)} />
+                    {cvvError && <p className="error-message" style={{color: "red"}}>{cvvError}</p>}
+                </div>
+                <div className="button-container d-flex flex-row">
+                    <Button buttonName="Pay" type="submit" />
+                    <Button buttonName="Close" type="button" onClick={onClose} style={{backgroundColor: "red"}}/>
+                </div>
+            </form>
         </div>
-        
-        // <div className="modal">
-        //     <div className="modal-content">
-        //         <span className="close" onClick={onClose}>&times;</span>
-        //         <h2>Enter your card details</h2>
-        //         <div>
-        //             <label>Total: ${total.toFixed(2)}</label>
-        //         </div>
-        //         <div>
-        //             <input type="text" placeholder="Card Number" value={cardNumber} onChange={e => setCardNumber(e.target.value)} />
-        //         </div>
-        //         <div>
-        //             <input type="text" placeholder="MM/YY" value={expiry} onChange={e => setExpiry(e.target.value)} />
-        //         </div>
-        //         <div>
-        //             <input type="text" placeholder="CVV" value={cvv} onChange={e => setCvv(e.target.value)} />
-        //         </div>
-        //         <button onClick={handleCheckout}>Checkout</button>
-        //     </div>
-        //     <div className="modal-backdrop"></div>
-        // </div>
-        // <div style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 1000, backgroundColor: 'white', padding: '20px' }}>
-        //     <h2>Modal is Open</h2>
-        //     <button onClick={onClose}>Close</button>
-        // </div>
     );
 };
 
