@@ -1,5 +1,5 @@
 import './Header.css';
-import { FaShoppingCart, FaUser, FaUserCircle, FaSignOutAlt } from 'react-icons/fa';
+import { FaShoppingCart, FaUser, FaUserCircle, FaSignOutAlt, FaBreadSlice } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../components/auth/AuthProvider';
 
@@ -29,20 +29,23 @@ const Header = () => {
 
                     <ul className="navbar-links">
                         <li className="nav-item ms-4 me-4">
-                            <a className="nav-link" onClick={() => handleNavigation('/deals')} href="#"><FaShoppingCart /> Specials and small-scale farming</a>
+                            <a className="nav-link" onClick={() => handleNavigation('/deals')} href="#"><FaShoppingCart /> &nbsp; Specials and small-scale farming</a>
                         </li>
                         <li className="nav-item ms-4 me-4">
-                            <a className="nav-link" onClick={() => handleNavigation('/cart')} href="#"><FaShoppingCart /> Cart</a>
+                            <a className="nav-link" onClick={() => handleNavigation('/cart')} href="#"><FaShoppingCart /> &nbsp;Cart</a>
                         </li>
                         <li className="nav-item ms-4 me-4">
-                            <a className="nav-link" onClick={() => handleNavigation('/profile')} href="#"><FaUser /> Profile</a>
+                            <a className="nav-link" onClick={() => handleNavigation('/diet-plan')} href="#"><FaBreadSlice /> &nbsp;Diet Plan</a>
+                        </li>
+                        <li className="nav-item ms-4 me-4">
+                            <a className="nav-link" onClick={() => handleNavigation('/profile')} href="#"><FaUser /> &nbsp;Profile</a>
                         </li>
                         <li className="nav-item ms-4">
-                            <a className="nav-link" onClick={() => logout('/')} href="#"><FaSignOutAlt /> Logout</a>
+                            <a className="nav-link" onClick={() => logout('/')} href="#"><FaSignOutAlt /> &nbsp;Logout</a>
                         </li>
                         
                     </ul>
-                    <div className='me-4'style={{fontSize: "4rem"}}>
+                    <div className='me-4'style={{fontSize: "2rem"}}>
                             <FaUserCircle />
                         </div>
                 </>

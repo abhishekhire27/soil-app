@@ -42,7 +42,7 @@ function Home() {
             <div className="container mt-4 mb-4">
                 <div className="row mb-4">
                     {itemsData.map(item => (
-                        <div key={item.id} className="col-md-3 mb-4">
+                        <div key={item.id} className="col-md-4 mb-4">
                             <div className="card h-100">
                                 <div className="box" style={{ paddingTop: '80%', position: 'relative' }}>
                                     <img
