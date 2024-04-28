@@ -64,13 +64,10 @@ function Profile() {
         users = localUsers;
       }
       const updatedUsers = users.map((u) =>
-        u.id === user.id ? { id: user.id, ...userData } : u
+        u.id === user.id ? { ...u, ...userData } : u
       );
       localStorage.setItem("users", JSON.stringify(updatedUsers));
-      localStorage.setItem(
-        "user",
-        JSON.stringify({ id: user.id, ...userData })
-      );
+      localStorage.setItem("user", JSON.stringify({ ...user, ...userData }));
 
       setUser(userData);
       addToast("Profile updated successfully.", { type: "success" });
