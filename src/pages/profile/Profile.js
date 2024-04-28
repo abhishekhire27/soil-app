@@ -15,6 +15,7 @@ function Profile() {
   const { user, setUser } = useAuth();
 
   const [userData, setUserData] = useState({
+    id: user.id,
     name: user.name,
     emailId: user.emailId,
     password: user.password,
@@ -40,15 +41,16 @@ function Profile() {
   useEffect(() => {
     if (user) {
       setUserData({
-        name: user.name || "",
+        id: user.id ?? "",
+        name: user.name ?? "",
         emailId: user.emailId,
         joiningDate: user.joiningDate,
-        age: user.age || "",
-        height: user.height || "",
-        weight: user.weight || "",
-        dietaryPreference: user.dietaryPreference || "",
-        healthGoal: user.healthGoal || "",
-        activityLevel: user.activityLevel || "",
+        age: user.age ?? "",
+        height: user.height ?? "",
+        weight: user.weight ?? "",
+        dietaryPreference: user.dietaryPreference ?? "",
+        healthGoal: user.healthGoal ?? "",
+        activityLevel: user.activityLevel ?? "",
       });
     } else {
       addToast("No user data found.", { type: "error" });
@@ -116,7 +118,6 @@ function Profile() {
       users = localUsers;
     }
     const userIndex = users.findIndex((dbUser) => dbUser.id === user.id);
-
     if (userIndex !== -1) {
       users[userIndex].password = await hashPassword(
         passwordFields.newPassword

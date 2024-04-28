@@ -15,11 +15,7 @@ function Login() {
 
   async function comparePasswords(enteredPassword, storedHashedPassword) {
     try {
-      // const match = await bcrypt.compare(enteredPassword, storedHashedPassword);
-      // return match;
-      //   let match = false;
       let match = await bcrypt.compare(enteredPassword, storedHashedPassword);
-      console.log(match);
       return match;
     } catch (error) {
       return false;
