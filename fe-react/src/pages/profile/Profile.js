@@ -132,17 +132,8 @@ function Profile() {
     let newErrors = {};
 
     if (
-      userData.age &&
-      (userData.age <= 0 || (isNaN(userData.age) && userData.height > 150))
-    ) {
-      newErrors.age = "Please enter a valid age.";
-      isValid = false;
-    }
-
-    if (
       userData.height &&
-      (userData.height <= 0 ||
-        (isNaN(userData.height) && userData.height > 300))
+      (userData.height <= 0 || (isNaN(userData.height) || userData.height > 300))
     ) {
       newErrors.height = "Please enter a valid height.";
       isValid = false;

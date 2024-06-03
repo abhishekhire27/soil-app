@@ -7,6 +7,7 @@ const sequelize = new Sequelize(
   {
     host: 'rmit.australiaeast.cloudapp.azure.com',
     dialect: 'mysql',
+    logging: false
   }
 );
 

@@ -15,13 +15,13 @@ db.cartItems = require("../models/cartItems.js")(db.sequelize, DataTypes);
 db.orderItems = require("../models/orderItems.js")(db.sequelize, DataTypes);
 
 
-db.cart.hasOne(db.user, { foreignKey: 'userId' });
+db.cart.hasOne(db.user, { foreignKey: 'cartId' });
 db.user.belongsTo(db.cart, { foreignKey: 'cartId' });
 
-db.user.hasMany(db.review, { foreignKey: 'reviewId' });
+db.user.hasMany(db.review, { foreignKey: 'userId' });
 db.review.belongsTo(db.user, { foreignKey: 'userId' });
 
-db.item.hasMany(db.review, { foreignKey: 'reviewId' });
+db.item.hasMany(db.review, { foreignKey: 'itemId' });
 db.review.belongsTo(db.item, { foreignKey: 'itemId' });
 
 db.cart.belongsToMany(db.item, { through: db.cartItems, foreignKey: 'cartId' });

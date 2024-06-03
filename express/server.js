@@ -20,7 +20,9 @@ require("./src/routes/item.routes.js")(express,app);
 require("./src/routes/user.routes.js")(express,app);
 require("./src/routes/review.routes.js")(express,app);
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 4001;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`);
 })
+
+module.exports = app ;
