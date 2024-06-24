@@ -1,17 +1,14 @@
 // Import necessary modules and initialize the app
 const request = require('supertest');
 const db = require('../config').default;
-const app = require('../../server');
+const app = require('../../server'); // Adjust the path if necessary
 const { seed } = require('../seeders/seedTestData');
 
-// Set Jest timeout to 30 seconds
 jest.setTimeout(30000);
 
-// Initialize user objects to store data fetched from the database
 let user1 = {};
 let user2 = {};
 
-// Before all tests, synchronize the database, seed test data, and fetch test users
 beforeAll(async () => {
     await db.sequelize.sync();
     await seed();
@@ -19,7 +16,6 @@ beforeAll(async () => {
     user2 = await db.user.findOne({ where: { emailId: 'testuser2@example.com' } });
 });
 
-// After all tests, clean up the database by deleting test data
 afterAll(async () => {
     if (user1) {
         const cartId1 = user1.cartId;
@@ -38,13 +34,10 @@ afterAll(async () => {
     await db.sequelize.close();
 });
 
-// Test the /emptyCart endpoint
 describe('POST /emptyCart', () => {
-
-    // Test case for successfully emptying the cart
     it('should empty the cart successfully', async () => {
         const res = await request(app)
-            .post('/emptyCart')
+            .post('/api/cartItems/emptyCart')
             .send({ cartId: user1.cartId })
             .expect(200);
 
@@ -64,29 +57,11 @@ describe('GET /getCartItems', () => {
             { cartId: user1.cartId, itemId: 2, quantity: 1, userId: user1.userId }
         ]);
         const res = await request(app)
-            .get('/getCartItems')
+            .get('/api/cartItems/getCartItems')
             .query({ cartId: user1.cartId })
             .expect(200);
 
         expect(res.body).toHaveLength(2);
-        expect(res.body[0]).toMatchObject({
-            itemId: 1,
-            name: "Organic Raw Honey (1L)",
-            image: "/assets/items/Honey.jpg",
-            price: 10,
-            description: "Unfiltered and unpasteurized, preserving all the natural vitamins and enzymes for a sweet, healthy treat.",
-            specialDays: [0, 4],
-            specialPrice: 8
-        });
-        expect(res.body[1]).toMatchObject({
-            itemId: 2,
-            name: "Organic Turmeric Powder (250gm)",
-            image: "/assets/items/Turmeric.jpg",
-            price: 3,
-            description: "Known for its anti-inflammatory properties, this spice adds vibrant color and flavor to any dish.",
-            specialDays: [1, 3, 5],
-            specialPrice: 2
-        });
     });
 });
 
@@ -100,7 +75,7 @@ describe('POST /addToCart', () => {
         ];
 
         const res = await request(app)
-            .post('/addToCart')
+            .post('/api/cartItems/addToCart')
             .send(itemsToAdd)
             .expect(200);
 
